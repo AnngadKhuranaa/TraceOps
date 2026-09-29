@@ -74,3 +74,47 @@ flowchart LR
 * **Fast Feedback**: Unit tests and linting must complete within 60 seconds.
 * **Deterministic**: No external cloud service calls or network dependencies in CI unit tests.
 * **Branch Protection**: Merging requires all checks to pass with 0 warnings.
+
+---
+
+## 4. Local Developer Commands
+
+### Start PostgreSQL
+```bash
+docker compose up -d postgres
+```
+
+### Install Backend Dependencies
+```bash
+cd backend
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -e ".[dev]"
+```
+
+### Run Database Migrations
+```bash
+alembic upgrade head
+```
+
+### Run Quality Checks & Tests
+```bash
+# Formatting
+ruff format --check .
+
+# Linting
+ruff check .
+
+# Static type checking
+mypy src tests
+
+# Unit & Integration Tests
+pytest -v
+```
+
+### Start the API Locally
+```bash
+python src/traceops/main.py
+# Or with uvicorn directly:
+# uvicorn traceops.main:app --host 0.0.0.0 --port 8001 --reload
+```

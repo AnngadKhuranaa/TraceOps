@@ -37,7 +37,40 @@ All foundational architectural decisions, guidelines, and specifications are cat
 
 ---
 
+## Quickstart (Local Backend)
+
+1. Start PostgreSQL:
+   ```bash
+   docker compose up -d postgres
+   ```
+2. Set up virtual environment and install dependencies:
+   ```bash
+   cd backend
+   python3 -m venv .venv
+   source .venv/bin/activate
+   pip install -e ".[dev]"
+   ```
+3. Run database migrations:
+   ```bash
+   alembic upgrade head
+   ```
+4. Run tests and static analysis:
+   ```bash
+   pytest -v
+   ruff check .
+   ruff format --check .
+   mypy src tests
+   ```
+5. Start the backend API:
+   ```bash
+   python src/traceops/main.py
+   # Health check: http://localhost:8001/api/v1/health
+   # Readiness check: http://localhost:8001/api/v1/ready
+   ```
+
+---
+
 ## Current Status
 
-**Phase 0: Architecture Hardening Complete.**  
-No application features, domain entities, database models, or cloud resources have been provisioned. Work proceeds only upon explicit authorization.
+**Phase 1A: Backend Engineering Foundation Complete.**  
+Runnable modular monolith foundation with FastAPI, clean architecture boundaries, async PostgreSQL session management, Alembic migrations, RFC 7807 error handling, structured logging with correlation IDs, and unit/integration testing suite. No domain entities, database tables, or product logic have been implemented.
